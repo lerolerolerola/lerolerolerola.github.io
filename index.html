@@ -110,14 +110,15 @@
     body { height: auto !important; }
   }
 
-  /* Touch phones: the same plain page, no fixed 3D stage. iOS Safari zooms the fold out to half size */
+  /* Touch phones: the mobile version is still in progress, show a note instead.
+     Sized in vw because iOS Safari zooms this page out */
+  .mobile-note { display: none; }
   @media (hover: none) and (pointer: coarse) {
-    .stage { position: static; display: block; overflow: visible; }
-    .wrap3d { perspective: none; transform-style: flat; }
-    .fold-top, .fold-bottom { display: none; }
-    .fold { width: auto; height: auto; overflow: visible; padding: 0 20px; }
-    .fold-content { transform: none !important; }
+    .stage { display: none; }
     body { height: auto !important; }
+    .mobile-note { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; padding: 0 8vw; font-size: 5vw; }
+    .mobile-note h1 { font-size: 9vw; }
+    .mobile-note p { margin: 0 0 1em; }
   }
 </style>
 </head>
@@ -280,6 +281,12 @@
   </main>
 </template>
 
+<div class="mobile-note">
+  <h1>Lara Portelinha</h1>
+  <p>The mobile version is a work in progress. Please visit on a desktop, where everything works. Sorry!</p>
+  <p aria-hidden="true">⭐</p>
+  <p><a href="mailto:laraportelinha1331@gmail.com">laraportelinha1331@gmail.com</a></p>
+</div>
 <div class="stage">
   <div class="wrap3d">
     <div class="fold fold-top"    aria-hidden="true"><div class="fold-align"><div class="fold-content" data-fold></div></div></div>
