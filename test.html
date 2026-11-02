@@ -3,6 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // ponytail: temporary diagnostic, delete once the phone layout is fixed
+  window.__log = [];
+  window.__mark = n => __log.push(n + ': ' + innerWidth + 'px scale ' + (window.visualViewport ? visualViewport.scale.toFixed(2) : '?'));
+  __mark('head');
+  document.addEventListener('DOMContentLoaded', () => __mark('DOM ready'));
+  window.addEventListener('load', () => { __mark('load'); setTimeout(() => __mark('load+1s'), 1000); });
+  window.addEventListener('resize', () => __mark('resize'));
+</script>
 <title>Lara Portelinha</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -292,7 +301,9 @@
 (() => {
   const tpl = document.getElementById('content');
   const panes = [...document.querySelectorAll('[data-fold]')];
+  __mark('before clone');
   panes.forEach(p => p.appendChild(tpl.content.cloneNode(true)));
+  __mark('after clone');
 
   // Decorative copies: keep them out of tab order
   document.querySelectorAll('.fold-top a, .fold-bottom a').forEach(a => a.tabIndex = -1);
@@ -338,20 +349,13 @@
 
 })();
 </script>
-<div id="probe" style="position:fixed;left:8px;right:8px;top:8px;z-index:99;background:#fff;color:#000;font:13px/1.35 monospace;padding:8px;white-space:pre-wrap;word-break:break-all"></div>
+<div id="probe" style="position:fixed;left:8px;right:8px;top:8px;z-index:99;background:#fff;color:#000;font:14px/1.4 monospace;padding:8px;white-space:pre-wrap"></div>
 <script>
-// ponytail: temporary diagnostic copy of index.html, delete once fixed
-setTimeout(() => {
-  const W = innerWidth, out = [];
-  out.push('layout width: ' + W + '  scrollWidth: ' + document.documentElement.scrollWidth + '  visual: ' + Math.round(visualViewport.width) + ' scale ' + visualViewport.scale.toFixed(2));
-  out.push('phone rule: ' + matchMedia('(max-width: 767px)').matches);
-  const wide = [...document.querySelectorAll('body *')].filter(e => e.id !== 'probe').map(e => {
-    const r = e.getBoundingClientRect();
-    return { e, l: Math.round(r.left), r: Math.round(r.right), w: Math.round(r.width) };
-  }).filter(x => x.r > 400 || x.l < -5).sort((a, b) => b.r - a.r).slice(0, 8);
-  wide.forEach(x => out.push(x.e.tagName.toLowerCase() + '.' + (x.e.className || '') + ' L' + x.l + ' R' + x.r + ' W' + x.w));
-  document.getElementById('probe').textContent = out.join('\n');
-}, 1500);
+  setTimeout(() => {
+    __mark('final');
+    const W = innerWidth, wide = [...document.querySelectorAll('body *')].filter(e => e.id !== 'probe' && e.getBoundingClientRect().right > W + 1).length;
+    document.getElementById('probe').textContent = __log.join('\n') + '\nelements past edge: ' + wide + '\nscreen ' + screen.width + ' · ' + navigator.userAgent.match(/(CriOS|Version)\/[\d.]+/)?.[0];
+  }, 2500);
 </script>
 </body>
 </html>
