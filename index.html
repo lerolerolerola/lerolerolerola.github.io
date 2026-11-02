@@ -84,6 +84,7 @@
   /* ---------- The 3D fold ---------- */
   .stage {
     position: fixed; inset: 0;
+    overflow: hidden; /* keeps the bent folds from widening the page on iOS Safari */
     display: flex; align-items: center; justify-content: center;
   }
   .wrap3d { position: relative; perspective: var(--perspective); transform-style: preserve-3d; }
