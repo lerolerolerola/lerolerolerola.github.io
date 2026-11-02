@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phone test</title>
+<style>body { font: 20px/1.5 system-ui, sans-serif; margin: 16px; } b { font-size: 28px; }</style>
+</head>
+<body>
+<p>Take a screenshot of this and send it back.</p>
+<p id="out"></p>
+<script>
+  // ponytail: temporary diagnostic, delete once the phone layout is fixed
+  const m = matchMedia('(max-width: 767px)').matches;
+  document.getElementById('out').innerHTML =
+    '<b>layout width: ' + innerWidth + 'px</b><br>' +
+    'screen: ' + screen.width + ' × ' + screen.height + ' @' + devicePixelRatio + 'x<br>' +
+    'phone layout rule active: ' + (m ? 'YES' : 'NO') + '<br>' +
+    navigator.userAgent;
+</script>
+</body>
+</html>
