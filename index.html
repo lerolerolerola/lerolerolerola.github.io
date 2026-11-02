@@ -21,10 +21,6 @@
   @media (max-width: 767px) {
     :root { --fold-angle: 140deg; }
   }
-  /* Phones: flat page. iOS Safari zooms out to fit folds that bend past the camera */
-  @media (hover: none) and (pointer: coarse) {
-    :root { --fold-angle: 0deg; }
-  }
 
   /* ---------- Base type (follows the CV) ---------- */
   * { box-sizing: border-box; }
@@ -110,6 +106,16 @@
     .wrap3d { perspective: none; }
     .fold-top, .fold-bottom { display: none; }
     .fold { width: auto; height: auto; overflow: visible; }
+    .fold-content { transform: none !important; }
+    body { height: auto !important; }
+  }
+
+  /* Touch phones: the same plain page, no fixed 3D stage. iOS Safari zooms the fold out to half size */
+  @media (hover: none) and (pointer: coarse) {
+    .stage { position: static; display: block; overflow: visible; }
+    .wrap3d { perspective: none; transform-style: flat; }
+    .fold-top, .fold-bottom { display: none; }
+    .fold { width: auto; height: auto; overflow: visible; padding: 0 20px; }
     .fold-content { transform: none !important; }
     body { height: auto !important; }
   }
